@@ -1,0 +1,119 @@
+---
+title: "Project381"
+output: html_document
+---
+Members: Megan Kem Noah Gallagher Alex Gonzalez
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+#2) All three loan and job histograms are right skewed with Long Beach looking like it has a normal distribution.These histograms there was a lot of loans less than 50k for all three cities. Also, these graphs look like they're pdfs.
+hist(LA_loan, freq = F, xlab = "Loan Amounts")
+xc<-seq(0,150000,1)  
+lines(xc,dexp(xc,rate= MLE_LAloan),col="green") 
+
+hist(LB_loan, freq = F, xlab = "Loan Amounts")
+xc<-seq(0,150000,1)  
+lines(xc,dexp(xc,rate= MLE_LBloan),col="green") 
+
+hist(Irv_loan, freq = F, xlab = "Loan Amounts")
+xc<-seq(0,150000,1)  
+lines(xc,dexp(xc,rate= MLE_Irvloan),col="green") 
+```
+
+```{r}
+hist(LA_jobs, breaks=c(seq(0,500,10)) , freq = F, xlab = "Jobs Retained")
+
+hist(LB_jobs, breaks=c(seq(0,500,10)), freq = F, xlab = "Jobs Retained")
+
+hist(Irv_jobs, breaks=c(seq(0,500,10)), freq = F, xlab = "Jobs Retained")
+```
+```{r}
+#4 MLE Loan
+   MLE_LAloan <-c(40966/sum(LA_loan))
+   MLE_LBloan <-c(4604/sum(LB_loan))
+   MLE_Irvloan <-c(6407/sum(Irv_loan))
+```
+
+```{r}
+#6   
+#Probabilities for Model
+
+pexp(100000, rate = MLE_LAloan, lower.tail = F) # = 0.04577129
+pexp(100000, rate = MLE_LBloan, lower.tail = F) # = 0.0482573
+pexp(100000, rate = MLE_Irvloan, lower.tail = F) # 0.06850389
+#For the population we can see that the proportions of people having a loan of over $100,000 in LA, LB, and Irvine is about 4.6%, 4.8%, and 6.9% respectively 
+
+#Actual Proportion
+
+x = 0
+for (m in LA_loan)
+  if (m > 100000)
+    x = x + 1
+LA_prop = x/length(LA_loan)
+# We can say that the amount of people that have loans of over $100,000 in LA is over %6.28
+y = 0
+for (m in LB_loan)
+  if (m > 100000)
+    x = x + 1
+LB_prop = x/length(LB_loan)
+#For the amount of people that have loans of greater than $100,000 in Long Beach is around %6.22
+x = 0
+for (m in Irv_loan)
+  if (m > 100000)
+    x = x + 1
+Irv_prop = x/length(Irv_loan)
+#In Irvine the proportion of the amount of people with a loan amount greater than $100,000 is %8.1
+```
+
+```{r LA}
+#7
+fitLA<-lm(LA_loan~LA_jobs)
+plot(LA_jobs, LA_loan, main = "Los Angeles jobs/loan")
+abline(fitLA, col = "green")
+
+```
+
+```{r Long Beach}
+fitLB<-lm(LB_loan~LB_jobs)
+plot(LB_jobs, LB_loan, main = "Long Beach jobs/loan")
+abline(fitLB, col = "green")
+
+```
+
+```{r}
+fitIRV<-lm(Irv_loan~Irv_jobs)
+plot(Irv_jobs, Irv_loan, main = "Irvine jobs/loan")
+abline(fitIRV, col = "green")
+
+#According to the scatter diagram we can say that the amount of jobs is a significant predictor for the amount of loans in every different city we chose
+# We can also say that since the amount of jobs in each city is low there tends to be more of a loan amount
+
+```
+
+```{r}
+#8 Evaluating the data from the PPP we analyzed the data for 3 different cities Los Angeles, Long Beach, and Irvine. All of our means conceited with each other but we can assume that the values for Los Angeles is more accurate than the other two cities since it has a bigger sample. By having a bigger sample size, LA can have the most accurate population mean.
+
+#For the histograms of all three cities, we noticed they were skewed right with a loan amount of less than 50,000 for most of the three cities according to our data. On the other hand we saw that our histogram for the jobs retained were also skewed right agreeing with our 95% confidence interval for jobs retained. 
+
+#According to our results that we found in this project and the last group homework we can say that the amount of jobs has affected the bigger cities more as in this example, LA had more job losses and needed a lot more loans. Cities like Irvine were able to retain more jobs with the amount of loans it acquired. Our proportions were about 6% for all three cities and the interval that we had about 95% confidence so we can say the proportion was very close to the confidence we had in this interval. We can say our regression line backed up our data in the scatter diagram. We can summarize that the amount of jobs retained will increase as the amount of loans increase or vice versa. The data also shows that the loans of people who got a loan of over $100,000 is skewing it right and throwing off our graph.
+
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
