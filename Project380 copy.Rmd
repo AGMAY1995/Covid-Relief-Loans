@@ -2,7 +2,7 @@
 title: "Project381"
 output: html_document
 ---
-Members: Megan Kem Noah Gallagher Alex Gonzalez
+Members: Alex Gonzalez
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
